@@ -20,7 +20,7 @@ struct ContentView: View {
                 blue: blueAmount / 255
             )
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                .frame(height: 200)
+                .frame(height: 150)
             
             ColorSelectionStack(
                 color: .red,
@@ -43,7 +43,7 @@ struct ContentView: View {
 struct ColorSelectionStack: View {
     let color: Color
     @Binding var amount: Double
-//    @State var textAmount = ""
+    @State private var textAmount = ""
     
     var body: some View {
         HStack {
@@ -54,12 +54,36 @@ struct ColorSelectionStack: View {
             Slider(value: $amount, in: 0...255)
                 .accentColor(color)
                 .padding(.trailing, 8.0)
+                .onChange(of: amount) { _ in
+                    textAmount = "\(lround(amount))"
+                }
             
-//            TextField("\(lround(amount))", text: $textAmount)
-//                .frame(width: 50, alignment: .leading)
-//                .textFieldStyle(.roundedBorder)
-//                .keyboardType(.numberPad)
+            TextField("\(lround(amount))", text: $textAmount)
+                .onChange(of: textAmount) { _ in
+                    guard let newAmount = Double(textAmount) else {
+                        textAmount = ""
+                        return
+                    }
+                    
+                    if newAmount > 255 {
+                        amount = 255
+                    } else if newAmount < 0 {
+                        amount = 0
+                    } else {
+                        amount = newAmount
+                    }
+                    
+                    textAmount = "\(lround(amount))"
+                }
+                .frame(width: 50, alignment: .leading)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.numberPad)
+
         }
+    }
+    
+    private func textFieldChange() {
+        amount = Double(textAmount) ?? 0
     }
 }
 
