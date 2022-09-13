@@ -43,6 +43,7 @@ struct ContentView: View {
 struct ColorSelectionStack: View {
     let color: Color
     @Binding var amount: Double
+//    @State var textAmount = ""
     
     var body: some View {
         HStack {
@@ -53,6 +54,11 @@ struct ColorSelectionStack: View {
             Slider(value: $amount, in: 0...255)
                 .accentColor(color)
                 .padding(.trailing, 8.0)
+            
+//            TextField("\(lround(amount))", text: $textAmount)
+//                .frame(width: 50, alignment: .leading)
+//                .textFieldStyle(.roundedBorder)
+//                .keyboardType(.numberPad)
         }
     }
 }
