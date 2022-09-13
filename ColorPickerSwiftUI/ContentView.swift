@@ -78,12 +78,7 @@ struct ColorSelectionStack: View {
                 .frame(width: 50, alignment: .leading)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.numberPad)
-
         }
-    }
-    
-    private func textFieldChange() {
-        amount = Double(textAmount) ?? 0
     }
 }
 
